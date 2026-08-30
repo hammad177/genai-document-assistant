@@ -8,6 +8,12 @@ export class QueryDto {
   question: string;
 }
 
+export class AgentQueryDto extends QueryDto {
+  @IsString()
+  @IsNotEmpty()
+  sessionId: string;
+}
+
 function Trim() {
   return Transform(({ value }) =>
     typeof value === 'string' ? value.trim() : value,

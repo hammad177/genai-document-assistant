@@ -6,14 +6,21 @@ import {
   Sse,
   Query,
   MessageEvent,
+  Param,
+  Delete,
+  Get,
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { QueryDto } from './chat.dto';
+import { AgentQueryDto, QueryDto } from './chat.dto';
 import { Observable } from 'rxjs';
+import { MemoryService } from 'src/memory/memory.service';
 
 @Controller('chat')
 export class ChatController {
-  constructor(private chatService: ChatService) {}
+  constructor(
+    private chatService: ChatService,
+    private memoryService: MemoryService,
+  ) {}
 
   @Post()
   async query(@Body() body: QueryDto) {
@@ -72,5 +79,21 @@ export class ChatController {
         }
       })();
     });
+  }
+
+  @Post('agent')
+  async agentQuery(@Body() body: AgentQueryDto) {
+    return this.chatService.agentQuery(body.question, body.sessionId);
+  }
+
+  @Get('session/:sessionId')
+  async getSessionHistory(@Param('sessionId') sessionId: string) {
+    return this.memoryService.getHistory(sessionId);
+  }
+
+  @Delete('session/:sessionId')
+  async clearSession(@Param('sessionId') sessionId: string) {
+    await this.memoryService.clearSession(sessionId);
+    return { cleared: true, sessionId };
   }
 }

@@ -18,6 +18,18 @@ export const OPEN_AI = {
     process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-small',
 };
 
+export const REDIS = {
+  URL: process.env.REDIS_URL || 'redis://localhost:6379',
+  MEMORY_TTL_SECONDS: parseInt(
+    process.env.REDIS_MEMORY_TTL_SECONDS || '3600',
+    10,
+  ),
+  MEMORY_MAX_MESSAGES: parseInt(
+    process.env.REDIS_MEMORY_MAX_MESSAGES || '10',
+    10,
+  ),
+};
+
 export const ALLOWED_DOC_EXTENSIONS: AllowedFileExtensions[] = ['.pdf'];
 
 export const WHITELIST = {} as const;

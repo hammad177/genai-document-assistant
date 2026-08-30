@@ -17,3 +17,9 @@ export interface SearchResult {
   score: number;
   payload: ChunkPayload;
 }
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+}
